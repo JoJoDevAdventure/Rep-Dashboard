@@ -2,6 +2,7 @@
 
 import Button from "@/Components/Button";
 import CustomInput from "@/Components/CustomInput";
+import Loading from "@/Components/Loading";
 import { appState } from "@/appState"; // Import app state
 import { users } from "@/data"; // Import user data
 import { useRouter } from "next/navigation"; // Use the Next.js navigation API
@@ -29,10 +30,12 @@ const Auth = () => {
     );
 
     if (user) {
+      console.log(user)
       // Simulate a delay (e.g., for loading screen)
       setTimeout(() => {
         appState.username = user.username;
         appState.isAuth = true;
+        console.log(appState.username)
         setLoading(false);
         router.push("/"); // Redirect to the home page
       }, 2000);
@@ -44,10 +47,13 @@ const Auth = () => {
 
   return (
     <section className="min-h-screen min-w-screen bg-black-100">
+      {loading && (
+        <Loading/>
+      )}
       <div className="container">
         {/* Top Navigation */}
         <div className="fixed top-0 left-0 z-50 w-full py-4 transition-all duration-500 bg-black-100 bg-opacity-20 backdrop-blur-[12px] flex justify-center">
-          <img className="w-48" src="/logo.png" alt="" />
+          <img className="w-48" src="/logo-white.png" alt="" />
         </div>
 
         {/* Login Form */}

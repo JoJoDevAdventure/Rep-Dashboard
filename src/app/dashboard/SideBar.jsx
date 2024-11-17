@@ -14,17 +14,17 @@ const SideBar = () => {
     },
     {
       name: "Cash to offers",
-      path: "/cash-to-offers",
+      path: "/dashboard/cash-to-offers",
       icon: "../dashboard-menu/cash-icon.svg",
     },
     {
       name: "Listings",
-      path: "/listings",
+      path: "/dashboard/listings",
       icon: "../dashboard-menu/listings-icon.svg",
     },
     {
       name: "CRM",
-      path: "/crm",
+      path: "/dashboard/crm",
       icon: "../dashboard-menu/crm-icon.svg",
       isDisabled: true,
     },
