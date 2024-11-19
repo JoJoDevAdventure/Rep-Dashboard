@@ -1,4 +1,5 @@
 import Tabs from "@/Components/dashboard/Tabs";
+import { Calls } from "@/data";
 import { useState } from "react";
 import { useTheme } from "../context/themeContext";
 import CallsList from "./CallsList";
@@ -7,7 +8,7 @@ import LiveCall from "./LiveCall";
 const MainContent = ({ calls }) => {
   const { isDarkMode } = useTheme();
   const [activeTab, setActiveTab] = useState(0); // 0 = Calls history, 1 = LIVE Call
-  const [currentCall, setCurrentCall] = useState(null); // Track the currently active call
+  const [currentCall, setCurrentCall] = useState(Calls[0]); // Track the currently active call
 
   const handleCall = (call) => {
     setCurrentCall(call); // Set the selected call as current
