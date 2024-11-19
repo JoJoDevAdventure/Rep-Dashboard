@@ -34,11 +34,11 @@ const LiveCall = ({ call, isActive, isDarkMode }) => {
           </div>
           {/* Call Info */}
           <div className="w-1/2">
-            <CallInfo timestamp={currentTimestamp} />
+            <CallInfo timestamp={currentTimestamp} isDarkMode={isDarkMode}/>
           </div>
         </div>
         {/* Live Transcript */}
-        <LiveTranscript messages={call.messages} />
+        <LiveTranscript messages={call.messages} isDarkMode = {isDarkMode} />
       </div>
 
       {/* Right Column */}
