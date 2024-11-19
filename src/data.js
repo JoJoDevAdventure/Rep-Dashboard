@@ -6,9 +6,9 @@ export const users = [
     username: "Joseph Bouhlel",
   },
   {
-    email: "user2@example.com",
-    password: "password456",
-    username: "UserTwo",
+    email: "amin@replicaide.com",
+    password: "12345678",
+    username: "Amin Abdi",
   },
 ];
 export const Calls = [
