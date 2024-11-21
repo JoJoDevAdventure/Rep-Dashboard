@@ -3,9 +3,10 @@ import { usePathname } from "next/navigation";
 import { useTheme } from "../context/themeContext";
 
 const SideBar = () => {
-  const { isDarkMode } = useTheme();
+  const { isDarkMode } = useTheme(); // Get the current theme (dark or light mode)
   const currentPath = usePathname(); // Get the current route
 
+  // Define menu items for the main navigation
   const menuItems = [
     {
       name: "Dashboard",
@@ -26,10 +27,11 @@ const SideBar = () => {
       name: "CRM",
       path: "/dashboard/crm",
       icon: "../dashboard-menu/crm-icon.svg",
-      isDisabled: true,
+      isDisabled: true, // Example of a disabled menu item
     },
   ];
 
+  // Define menu items for the account section
   const accountItems = [
     {
       name: "My account",
@@ -51,18 +53,20 @@ const SideBar = () => {
   return (
     <div
       className={`h-screen w-64 flex flex-col justify-between p-6 overflow-hidden z-50 ${
-        isDarkMode ? "bg-s1 text-white" : "bg-gray-50 text-black shadow-light"
+        isDarkMode
+          ? "bg-s1 text-white" // Dark mode styles
+          : "bg-gray-50 text-black shadow-light" // Light mode styles
       }`}
     >
-      {/* Logo */}
+      {/* Logo Section */}
       <div>
         <img
           className="w-48 mx-0 mb-10"
-          src={`/logo-${isDarkMode ? "white" : "black"}.png`}
+          src={`/logo-${isDarkMode ? "white" : "black"}.png`} // Adjust logo based on theme
           alt="Logo"
         />
 
-        {/* Menu */}
+        {/* Main Menu Section */}
         <div>
           <p className="uppercase text-sm font-semibold text-gray-500 mb-4">
             Menu
@@ -73,26 +77,29 @@ const SideBar = () => {
                 key={item.name}
                 className={`relative -mx-6 flex items-center gap-4 py-4 px-6 cursor-pointer ${
                   currentPath === item.path
-                    ? "bg-s3/10 text-s3" // Active item styles
+                    ? "bg-s3/10 text-s3" // Highlight active menu item
                     : isDarkMode
-                    ? "hover:bg-s3/5"
-                    : "hover:bg-s3/5"
+                    ? "hover:bg-s3/5" // Hover styles for dark mode
+                    : "hover:bg-s3/5" // Hover styles for light mode
                 } ${
                   item.isDisabled
-                    ? "opacity-50 pointer-events-none hover:bg-transparent"
+                    ? "opacity-50 pointer-events-none hover:bg-transparent" // Styles for disabled items
                     : ""
                 }`}
               >
-                {/* Line for the active item */}
+                {/* Vertical line for active menu item */}
                 {currentPath === item.path && (
                   <div className="absolute right-0 top-0 bottom-0 w-1 bg-s3" />
                 )}
 
+                {/* Menu Icon */}
                 <img
                   src={`/icons/${item.icon}`}
                   alt={`${item.name} icon`}
                   className="w-5 h-5"
                 />
+
+                {/* Menu Link */}
                 <Link href={item.path}>{item.name}</Link>
               </li>
             ))}
@@ -100,7 +107,7 @@ const SideBar = () => {
         </div>
       </div>
 
-      {/* Account */}
+      {/* Account Section */}
       <div>
         <p className="uppercase text-sm font-semibold text-gray-500 mb-4">
           Your account
@@ -111,11 +118,14 @@ const SideBar = () => {
               key={item.name}
               className="flex items-center gap-4 p-3 rounded-lg cursor-pointer"
             >
+              {/* Account Item Icon */}
               <img
                 src={`/icons/${item.icon}`}
                 alt={`${item.name} icon`}
                 className="w-5 h-5"
               />
+
+              {/* Account Item Link */}
               <Link href={item.path}>{item.name}</Link>
             </li>
           ))}

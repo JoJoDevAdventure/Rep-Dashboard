@@ -202,7 +202,7 @@ export const Calls = [
         isAgent: false,
         text: "Hey, honey.",
         timestamp: "01:36",
-        isGuest: false,
+        isGuest: true,
       },
       {
         isAgent: true,
@@ -226,7 +226,7 @@ export const Calls = [
         isAgent: false,
         text: "Great. How are you?",
         timestamp: "01:48",
-        isGuest: false,
+        isGuest: true,
       },
       {
         isAgent: true,
