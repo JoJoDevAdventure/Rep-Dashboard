@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useTheme } from "../context/themeContext";
+import { useTheme } from "../../app/context/themeContext";
 
 const SideBar = () => {
   const { isDarkMode } = useTheme(); // Get the current theme (dark or light mode)
@@ -11,22 +11,17 @@ const SideBar = () => {
     {
       name: "Dashboard",
       path: "/dashboard",
-      icon: "../dashboard-menu/dashboard-icon.svg",
-    },
-    {
-      name: "Cash to offers",
-      path: "/dashboard/cash-to-offers",
-      icon: "../dashboard-menu/cash-icon.svg",
+      icon: "dashboard-icon.svg",
     },
     {
       name: "Listings",
       path: "/dashboard/listings",
-      icon: "../dashboard-menu/listings-icon.svg",
+      icon: "listings-icon.svg",
     },
     {
       name: "CRM",
       path: "/dashboard/crm",
-      icon: "../dashboard-menu/crm-icon.svg",
+      icon: "crm-icon.svg",
       isDisabled: true, // Example of a disabled menu item
     },
   ];
@@ -36,17 +31,17 @@ const SideBar = () => {
     {
       name: "My account",
       path: "/account",
-      icon: "../dashboard-menu/account-icon.svg",
+      icon: "account-icon.svg",
     },
     {
       name: "Help and support",
       path: "/support",
-      icon: "../dashboard-menu/help-icon.svg",
+      icon: "help-icon.svg",
     },
     {
       name: "Logout",
       path: "/logout",
-      icon: "../dashboard-menu/logout-icon.svg",
+      icon: "logout-icon.svg",
     },
   ];
 
@@ -94,9 +89,11 @@ const SideBar = () => {
 
                 {/* Menu Icon */}
                 <img
-                  src={`/icons/${item.icon}`}
+                  src={`/dashboard-icons/${item.icon}`}
                   alt={`${item.name} icon`}
-                  className="w-5 h-5"
+                  className={`w-5 h-5 ${
+                    currentPath === item.path ? "filter-p1" : ""
+                  }`} // Add a color filter for active icons
                 />
 
                 {/* Menu Link */}
@@ -116,13 +113,21 @@ const SideBar = () => {
           {accountItems.map((item) => (
             <li
               key={item.name}
-              className="flex items-center gap-4 p-3 rounded-lg cursor-pointer"
+              className={`relative flex items-center gap-4 p-3 rounded-lg cursor-pointer ${
+                currentPath === item.path
+                  ? " text-s3" // Highlight active account item
+                  : isDarkMode
+                  ? "hover:bg-s3/5" // Hover styles for dark mode
+                  : "hover:bg-s3/5" // Hover styles for light mode
+              }`}
             >
               {/* Account Item Icon */}
               <img
-                src={`/icons/${item.icon}`}
+                src={`/dashboard-icons/${item.icon}`}
                 alt={`${item.name} icon`}
-                className="w-5 h-5"
+                className={`w-5 h-5 ${
+                  currentPath === item.path ? "filter-p1" : ""
+                }`} // Add a color filter for active icons
               />
 
               {/* Account Item Link */}

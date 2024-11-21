@@ -265,7 +265,7 @@ export const Calls = [
         isGuest: false,
       },
     ],
-    audio: "./demo.mp3",
+    audio: "/demo.mp3",
     date: "2023-11-16",
     notes: "Client is very interested in oceanfront properties.",
     image:

@@ -1,5 +1,5 @@
 import ThemeSwitch from "@/Components/ThemeSwitch"; // The custom theme toggle component
-import { useTheme } from "../context/themeContext"; // Theme context to manage dark/light mode
+import { useTheme } from "../../app/context/themeContext"; // Theme context to manage dark/light mode
 
 const Header = ({ username }) => {
   const { isDarkMode } = useTheme(); // Retrieve the current theme (dark or light mode)

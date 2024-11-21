@@ -1,14 +1,13 @@
 "use client";
 
 import { appState } from "@/appState"; // Application state to access the username
-import { Calls } from "@/data"; // Mock data for calls
+import Header from "@/Components/dashboard/Header"; // Header component
+import SideBar from "@/Components/dashboard/SideBar"; // Sidebar navigation component
 import { useRouter } from "next/navigation"; // For client-side navigation
 import { useEffect } from "react"; // React hook to handle side effects
-import Header from "../../Components/dashboard/Header"; // Header component
-import SideBar from "../../Components/dashboard/SideBar"; // Sidebar navigation component
 import MainContent from "./MainContent"; // Main content component
 
-const Dashboard = () => {
+const Account = () => {
   const router = useRouter(); // Next.js router for navigation
 
   useEffect(() => {
@@ -29,10 +28,10 @@ const Dashboard = () => {
         <Header username={appState.username} />
         
         {/* Main Content Section */}
-        <MainContent calls={Calls} />
+        <MainContent/>
       </div>
     </div>
   );
 };
 
-export default Dashboard;
+export default Account;
