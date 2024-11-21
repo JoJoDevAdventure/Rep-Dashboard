@@ -1,6 +1,7 @@
 import AgentInfo from "@/Components/dashboard/AgentInfo"; // Displays agent-related info and audio playback
 import CallInfo from "@/Components/dashboard/CallInfo"; // Displays call-specific info (e.g., timestamp, phone number)
 import ListingInfo from "@/Components/dashboard/ListingInfo"; // Displays property and client information
+import LiveListingInfo from "@/Components/dashboard/LiveListingInfo"; // Displays real-time property info for live calls
 import LiveTranscript from "@/Components/dashboard/LiveTranscript"; // Displays the real-time transcript of the call
 import { useEffect, useState } from "react"; // React hooks for managing state and effects
 
@@ -28,7 +29,7 @@ const LiveCall = ({ call, isActive, isDarkMode }) => {
         <div className="flex gap-4">
           <div className="w-1/2">
             <AgentInfo
-              name={`${call.clientInfo.firstName} ${call.clientInfo.lastName}`} // Combine first and last name for display
+              name={call.isLive ?`${call.clientInfo.firstName.value} ${call.clientInfo.lastName.value}` : `${call.clientInfo.firstName} ${call.clientInfo.lastName}`} // Combine first and last name for display
               blob={audioUrl} // Pass audio file URL for playback
               onTimeUpdate={setCurrentTimestamp} // Callback to update the timestamp
               isDarkMode={isDarkMode} // Adjust styles for dark or light mode
@@ -50,12 +51,20 @@ const LiveCall = ({ call, isActive, isDarkMode }) => {
         />
       </div>
 
-      {/* Right Column: Listing Info */}
+      {/* Right Column: Listing Info or LiveListingInfo */}
       <div className="w-1/2 h-full">
-        <ListingInfo
-          call={call} // Pass the entire call object to display property details
-          isDarkMode={isDarkMode} // Adjust styles for dark or light mode
-        />
+        {call?.isLive ? (
+          <LiveListingInfo
+            call={call} // Pass the entire call object for live property details
+            isDarkMode={isDarkMode} // Adjust styles for dark or light mode
+            currentTimestamp={currentTimestamp}
+          />
+        ) : (
+          <ListingInfo
+            call={call} // Pass the entire call object to display property details
+            isDarkMode={isDarkMode} // Adjust styles for dark or light mode
+          />
+        )}
       </div>
     </div>
   );

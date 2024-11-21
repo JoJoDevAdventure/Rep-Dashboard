@@ -1,11 +1,11 @@
 
 import { useTheme } from "@/app/context/themeContext";
 
-const Tabs = ({ activeTab, setActiveTab }) => {
+const Tabs = ({ activeTab, setActiveTab, tabs }) => {
     const { isDarkMode } = useTheme();
   return (
     <div className="flex border-b border-p1/10">
-      {["Calls history", "LIVE Call"].map((tab, index) => (
+      {tabs.map((tab, index) => (
         <button
           key={tab}
           className={`px-4 py-2 ${

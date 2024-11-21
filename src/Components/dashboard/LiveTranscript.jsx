@@ -42,7 +42,7 @@ const LiveTranscript = ({ messages, currentTimestamp, isDarkMode }) => {
     >
       {/* Sticky Label */}
       <div
-        className={`sticky -top-2 z-10 p-2 bg-white ${
+        className={`sticky -top-4 z-10 p-3 bg-white ${
           isDarkMode ? "bg-s1 text-gray-100" : "bg-white text-gray-700"
         } border-b border-gray-300`}
       >
@@ -76,11 +76,17 @@ const LiveTranscript = ({ messages, currentTimestamp, isDarkMode }) => {
               }}
               className={`p-3 rounded-xl max-w-[75%] mt-4 ${
                 !msg.isAgent
-                  ? `${
-                      isDarkMode
-                        ? "bg-gray-700 text-gray-300"
-                        : "bg-gray-200 text-gray-800"
-                    } self-start rounded-tl-none`
+                  ? msg.isGuest
+                    ? `${
+                        isDarkMode
+                          ? "bg-p3 : bg-p3/50"
+                          : "bg-p3/50 text-yellow-900"
+                      } self-start rounded-tl-none`
+                    : `${
+                        isDarkMode
+                          ? "bg-gray-700 text-gray-300"
+                          : "bg-gray-200 text-gray-800"
+                      } self-start rounded-tl-none`
                   : `${
                       isDarkMode
                         ? "bg-orange-800 text-orange-300"
