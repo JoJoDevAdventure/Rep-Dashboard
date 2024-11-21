@@ -4,14 +4,13 @@ import WaveSurfer from "wavesurfer.js";
 const AgentInfo = ({ name = "John Doe", blob, onTimeUpdate, isDarkMode }) => {
   const waveformRef = useRef(null);
   const waveSurferRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false); // Track play/pause state
+  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     if (blob && waveformRef.current) {
-      // Initialize WaveSurfer
       waveSurferRef.current = WaveSurfer.create({
         container: waveformRef.current,
-        waveColor: isDarkMode ? "#666" : "#ddd", // Adjust waveform color
+        waveColor: isDarkMode ? "#666" : "#ddd",
         progressColor: "#FF5F1F",
         cursorColor: "#FF5F1F",
         barWidth: 3,
@@ -19,23 +18,19 @@ const AgentInfo = ({ name = "John Doe", blob, onTimeUpdate, isDarkMode }) => {
         height: 100,
       });
 
-      // Load audio URL
       waveSurferRef.current.load(blob);
 
-      // Update play state when ready
       waveSurferRef.current.on("ready", () => {
         setIsPlaying(false);
       });
 
-      // Track progress and update timestamp
       waveSurferRef.current.on("audioprocess", () => {
         if (waveSurferRef.current.isPlaying()) {
           const currentTime = waveSurferRef.current.getCurrentTime();
-          onTimeUpdate(formatTime(currentTime)); // Pass formatted time
+          onTimeUpdate(formatTime(currentTime));
         }
       });
 
-      // Cleanup on unmount
       return () => {
         if (waveSurferRef.current) {
           waveSurferRef.current.destroy();
@@ -44,14 +39,12 @@ const AgentInfo = ({ name = "John Doe", blob, onTimeUpdate, isDarkMode }) => {
     }
   }, [blob, onTimeUpdate, isDarkMode]);
 
-  // Helper function to format time
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60).toString().padStart(2, "0");
     const seconds = Math.floor(time % 60).toString().padStart(2, "0");
     return `${minutes}:${seconds}`;
   };
 
-  // Toggle play/pause
   const togglePlayPause = () => {
     if (waveSurferRef.current) {
       if (waveSurferRef.current.isPlaying()) {
@@ -64,7 +57,6 @@ const AgentInfo = ({ name = "John Doe", blob, onTimeUpdate, isDarkMode }) => {
     }
   };
 
-  // Dynamic classes for dark/light mode
   const bgColor = isDarkMode ? "bg-s1" : "bg-white";
   const textColor = isDarkMode ? "text-gray-300" : "text-p1";
   const borderColor = isDarkMode ? "border-p1" : "border-p1/10";
@@ -73,13 +65,8 @@ const AgentInfo = ({ name = "John Doe", blob, onTimeUpdate, isDarkMode }) => {
     <div
       className={`p-6 border-2 rounded-xl h-full flex flex-col justify-center items-center ${bgColor} ${borderColor}`}
     >
-      {/* Agent's Name */}
       <h3 className={`text-xl font-semibold mb-4 ${textColor}`}>{name}</h3>
-
-      {/* Audio Visualizer */}
       <div ref={waveformRef} className="w-full mb-4"></div>
-
-      {/* Play/Pause Button */}
       <button
         onClick={togglePlayPause}
         className={`px-4 py-2 rounded-full font-semibold ${

@@ -5,45 +5,42 @@ import LiveTranscript from "@/Components/dashboard/LiveTranscript";
 import { useEffect, useState } from "react";
 
 const LiveCall = ({ call, isActive, isDarkMode }) => {
-  const [currentTimestamp, setCurrentTimestamp] = useState("00:00"); // Track the audio timestamp
-  const [audioUrl, setAudioUrl] = useState(null); // URL for the audio
+  const [currentTimestamp, setCurrentTimestamp] = useState("00:00");
+  const [audioUrl, setAudioUrl] = useState(null);
 
-  // Effect to handle audio URL for LIVE Call tab
   useEffect(() => {
     if (isActive) {
-      setAudioUrl(call.audio); // Set the URL for playback and visualizer from the call object
+      setAudioUrl(call.audio);
     } else {
-      // Clean up when leaving the LIVE Call tab
       setAudioUrl(null);
     }
   }, [isActive, call.audio]);
 
   return (
     <div className="flex flex-row gap-4 h-full">
-      {/* Left Column */}
       <div className="w-1/2 flex flex-col gap-4 h-full">
         <div className="flex gap-4">
-          {/* Agent Info */}
           <div className="w-1/2">
             <AgentInfo
-              name={`${call.clientInfo.firstName} ${call.clientInfo.lastName}`} // Combine first and last name
-              blob={audioUrl} // Pass the audio URL
-              onTimeUpdate={setCurrentTimestamp} // Pass the callback to track time
+              name={`${call.clientInfo.firstName} ${call.clientInfo.lastName}`}
+              blob={audioUrl}
+              onTimeUpdate={setCurrentTimestamp}
               isDarkMode={isDarkMode}
             />
           </div>
-          {/* Call Info */}
           <div className="w-1/2">
-            <CallInfo timestamp={currentTimestamp} isDarkMode={isDarkMode}/>
+            <CallInfo timestamp={currentTimestamp} isDarkMode={isDarkMode} />
           </div>
         </div>
-        {/* Live Transcript */}
-        <LiveTranscript messages={call.messages} isDarkMode = {isDarkMode} />
+        <LiveTranscript
+          messages={call.messages}
+          currentTimestamp={currentTimestamp}
+          isDarkMode={isDarkMode}
+        />
       </div>
 
-      {/* Right Column */}
       <div className="w-1/2 h-full">
-        <ListingInfo  call={call} isDarkMode={isDarkMode}/>
+        <ListingInfo call={call} isDarkMode={isDarkMode} />
       </div>
     </div>
   );
