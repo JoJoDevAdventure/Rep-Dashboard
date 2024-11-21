@@ -42,9 +42,9 @@ const LiveTranscript = ({ messages, currentTimestamp, isDarkMode }) => {
     >
       {/* Sticky Label */}
       <div
-        className={`sticky -top-4 z-10 p-3 bg-white ${
+        className={`sticky -top-4 z-10 p-3 ${
           isDarkMode ? "bg-s1 text-gray-100" : "bg-white text-gray-700"
-        } border-b border-gray-300`}
+        } border-b border-p1`}
       >
         <p className="text-sm font-semibold">Live Transcript</p>
       </div>
