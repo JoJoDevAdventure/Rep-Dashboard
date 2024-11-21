@@ -1,5 +1,6 @@
 "use client";
 
+import { appState } from "@/appState";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -12,7 +13,7 @@ const LogoutPage = () => {
     
     if (confirmLogout) {
       // If the user confirms, set `isAuth` to false and redirect to home
-      localStorage.setItem("isAuth", "false"); // Assuming `isAuth` is stored in localStorage
+      appState.isAuth = false; // Assuming `isAuth` is stored in localStorage
       router.push("/");
     } else {
       // If the user cancels, redirect to the dashboard
