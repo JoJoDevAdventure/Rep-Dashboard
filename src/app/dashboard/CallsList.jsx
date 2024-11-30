@@ -7,11 +7,11 @@ const CallsList = ({ calls, onCall, OnView, isDarkMode }) => {
 
   return (
     <div
-      className={`w-full p-6 h-[75vh] overflow-y-auto border-2 ${borderColor} rounded-lg ${bgColor}`}
+      className={`w-full md:p-0 md:h-[75vh] md:overflow-y-auto md:over md:border-2 ${borderColor} rounded-lg ${bgColor}`}
     >
       {/* Table Header */}
       <div
-        className={`grid grid-cols-12 text-sm font-bold ${headerTextColor} border-b pb-2 ${borderColor}`}
+        className={`hidden md:grid grid-cols-12 text-sm font-bold ${headerTextColor} border-b pb-2 ${borderColor} p-6`}
       >
         <div className="col-span-4">ADDRESS</div>
         <div className="col-span-2">CLIENT</div>
@@ -26,10 +26,11 @@ const CallsList = ({ calls, onCall, OnView, isDarkMode }) => {
         {calls.map((call, index) => (
           <div
             key={index}
-            className={`grid grid-cols-12 text-sm ${textColor} border-b-2 py-4 items-center last:border-none ${borderColor}`}
+            className={`grid grid-cols-1 md:grid-cols-12 gap-4 text-sm ${textColor} border-b-2 py-4 items-center last:border-none ${borderColor} cursor-pointer md:hover:bg-p1/10 md:px-6 `}
+            onClick={() => onCall(call)}
           >
             {/* Address with Image */}
-            <div className="col-span-4 flex gap-4">
+            <div className="md:col-span-4 flex gap-4">
               <img
                 src={call.image} // Property image
                 alt={`${call.propertyInfo.address}`} // Alt text for accessibility
@@ -37,37 +38,42 @@ const CallsList = ({ calls, onCall, OnView, isDarkMode }) => {
               />
               <div>
                 <div className="font-bold">{call.propertyInfo.address}</div>
-                <div className={headerTextColor}>
+                <div className={`${headerTextColor}`}>
                   {`${call.propertyInfo.city}, ${call.propertyInfo.state}, ${call.propertyInfo.zip}`}
                 </div>
+                <div className="block md:hidden"> {call.clientInfo.email} </div>
               </div>
             </div>
 
             {/* Client Info */}
-            <div className="col-span-2">
+            <div className="hidden md:block md:col-span-2">
               <div>{`${call.clientInfo.firstName} ${call.clientInfo.lastName}`}</div>
               <div className={headerTextColor}>{call.clientInfo.email}</div>
             </div>
 
             {/* Beds */}
-            <div>{call.propertyInfo.rooms || "-"}</div>
+            <div className="hidden md:block">
+              {call.propertyInfo.rooms || "-"}
+            </div>
 
             {/* Baths */}
-            <div>{call.propertyInfo.bathrooms || "-"}</div>
+            <div className="hidden md:block">
+              {call.propertyInfo.bathrooms || "-"}
+            </div>
 
             {/* SQFT */}
-            <div>{call.propertyInfo.surface || "-"}</div>
+            <div className="hidden md:block">
+              {call.propertyInfo.surface || "-"}
+            </div>
 
             {/* Actions */}
-            <div className="col-span-3 flex justify-center gap-4">
-              {/* View Listing Button */}
+            <div className="md:col-span-3 justify-center gap-4 hidden md:flex">
               <button
                 className="bg-p2 text-white px-4 py-1 rounded"
                 onClick={() => OnView(call)} // Trigger the OnView callback
               >
-                View Listing
+                View
               </button>
-              {/* Call Button */}
               <button
                 className={`p-2 rounded ${isDarkMode ? "bg-s3" : "bg-s3"}`}
                 onClick={() => onCall(call)} // Trigger the onCall callback

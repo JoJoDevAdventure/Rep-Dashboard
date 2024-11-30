@@ -16,7 +16,7 @@ const AgentInfo = ({ name = "John Doe", blob, onTimeUpdate, isDarkMode }) => {
         cursorColor: "#FF5F1F", // Cursor color
         barWidth: 3, // Width of waveform bars
         responsive: true, // Adjusts the waveform to container size
-        height: 100, // Height of the waveform
+        height: 30,
       });
 
       waveSurferRef.current.load(blob); // Load the audio blob
@@ -68,13 +68,13 @@ const AgentInfo = ({ name = "John Doe", blob, onTimeUpdate, isDarkMode }) => {
 
   return (
     <div
-      className={`p-6 border-2 rounded-xl h-full flex flex-col justify-center items-center ${bgColor} ${borderColor}`}
+      className={`md:p-6 p-4 border-2 rounded-xl h-full flex flex-col justify-center items-center ${bgColor} ${borderColor}`}
     >
       {/* Agent's Name */}
-      <h3 className={`text-xl font-semibold mb-4 ${textColor}`}>{name}</h3>
+      <h3 className={`text-l md:text-xl font-semibold mb-4 ${textColor}`}>{name}</h3>
 
       {/* Audio Visualizer */}
-      <div ref={waveformRef} className="w-full mb-4"></div>
+      <div ref={waveformRef} className="w-full mb-4 md:h-full"></div>
 
       {/* Play/Pause Button */}
       <button

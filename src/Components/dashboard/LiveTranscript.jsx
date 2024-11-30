@@ -38,7 +38,7 @@ const LiveTranscript = ({ messages, currentTimestamp, isDarkMode }) => {
   return (
     <div
       ref={scrollRef}
-      className={`flex-col p-4 border-2 rounded-xl h-[390px] overflow-y-auto ${bgColor} ${borderColor}`}
+      className={`flex-col p-4 border-2 rounded-xl md:h-[390px] h-[200px] overflow-y-auto ${bgColor} ${borderColor}`}
     >
       {/* Sticky Label */}
       <div

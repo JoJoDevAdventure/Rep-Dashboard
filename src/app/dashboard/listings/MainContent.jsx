@@ -1,10 +1,23 @@
+import ActionsBar from "@/Components/dashboard/ActionsBar";
+import ListingPopForm from "@/Components/dashboard/ListingPopForm";
 import { useState } from "react"; // React state management
 import CallsList from "../CallsList"; // Component to display the list of calls
 import LiveCall from "../LiveCall"; // Component to handle live call details
 
-const MainContent = ({calls , isDarkMode}) => {
+const MainContent = ({ calls, isDarkMode }) => {
+  const [currentCall, setCurrentCall] = useState(null); // State to track the currently active call
+  const [isPopUpOpen, setIsPopUpOpen] = useState(false); // State to track the pop-up form visibility
 
-    const [currentCall, setCurrentCall] = useState(null); // State to track the currently active call
+  // Handle save action in the pop-up form
+  const handleSave = (formData) => {
+    console.log("Saved Listing Data:", formData);
+    setIsPopUpOpen(false); // Close the pop-up after saving
+  };
+
+  // Handle cancel action in the pop-up form
+  const handleCancel = () => {
+    setIsPopUpOpen(false); // Close the pop-up when canceled
+  };
 
   return (
     <div
@@ -28,12 +41,30 @@ const MainContent = ({calls , isDarkMode}) => {
 
       {/* Conditional rendering based on the current call */}
       {!currentCall ? (
-        <CallsList
-          calls={calls} // Pass the list of calls
-          onCall={(call) => setCurrentCall(call)} // Handle initiating a call
-          OnView={(call) => console.log("Viewing:", call)} // Placeholder for viewing a call
-          isDarkMode={isDarkMode} // Pass theme information
-        />
+        <>
+          {/* Listing Pop-Up Form */}
+          {isPopUpOpen && (
+            <ListingPopForm
+              isOpen={isPopUpOpen}
+              onClose={handleCancel}
+              onSave={handleSave}
+            />
+          )}
+
+          {/* Actions Bar */}
+          <ActionsBar
+            onAddListing={() => setIsPopUpOpen(true)}
+            isDarkMode={isDarkMode}
+          />
+
+          {/* Calls List */}
+          <CallsList
+            calls={calls} // Pass the list of calls
+            onCall={(call) => setCurrentCall(call)} // Handle initiating a call
+            OnView={(call) => console.log("Viewing:", call)} // Placeholder for viewing a call
+            isDarkMode={isDarkMode} // Pass theme information
+          />
+        </>
       ) : (
         <LiveCall
           call={currentCall} // Pass the currently active call

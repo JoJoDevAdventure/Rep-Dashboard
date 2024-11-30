@@ -26,7 +26,7 @@ const ListingInfo = ({ call, onFieldEdit, onEndCall, onSave, isDarkMode }) => {
       </div>
 
       {/* Client Info Fields */}
-      <div className="grid grid-cols-2 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
         {[
           { label: "First Name", key: "clientInfo.firstName" },
           { label: "Last Name", key: "clientInfo.lastName" },
@@ -49,7 +49,7 @@ const ListingInfo = ({ call, onFieldEdit, onEndCall, onSave, isDarkMode }) => {
 
       {/* Listing Info Section */}
       <p className={`text-sm font-semibold mb-4 ${labelColor}`}>Listing Info</p>
-      <div className="grid grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
         {[
           { label: "Street Address", key: "propertyInfo.address" },
           { label: "City", key: "propertyInfo.city" },

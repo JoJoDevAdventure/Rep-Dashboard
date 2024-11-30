@@ -34,21 +34,21 @@ const MainContent = () => {
 
   return (
     <div
-      className={`flex h-full ${
+      className={`flex flex-col md:flex-row h-full w-full overflow-hidden ${
         isDarkMode ? "bg-s1 text-white" : "bg-white text-black"
       }`}
     >
       {/* Left Sidebar with Tabs */}
-      <div
-        className={`w-1/4 border-r p-4 ${
+      <div  
+        className={`md:w-1/4 w-full border-b md:border-b-0 md:border-r p-4 overflow-x-scroll ${
           isDarkMode ? "border-p1/10" : "border-p1/30"
         }`}
       >
-        <div className="flex flex-col space-y-4">
+        <div className="flex flex-row md:flex-col space-x-2 md:space-x-0 md:space-y-4 overflow-auto">
           {sections.map((section, index) => (
             <button
               key={section}
-              className={`px-4 py-2 text-left ${
+              className={`px-4 py-2 text-left flex-1 md:flex-none ${
                 activeTab === index
                   ? "bg-orange-500 text-white rounded-md"
                   : isDarkMode

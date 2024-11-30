@@ -1,6 +1,7 @@
 "use client";
 
 import { appState } from "@/appState"; // Application state to access the username
+import Humphry from "@/Components/Humphry";
 import { Calls } from "@/data"; // Mock data for calls
 import { useRouter } from "next/navigation"; // For client-side navigation
 import { useEffect } from "react"; // React hook to handle side effects
@@ -19,7 +20,8 @@ const Dashboard = () => {
   }, [router]); // Dependency ensures this runs whenever `router` changes
 
   return (
-    <div className="flex max-h-[100vh] overflow-hidden">
+    <div className="flex md:max-h-[100vh] md:overflow-hidden pb-12">
+      <Humphry />
       {/* Sidebar Navigation */}
       <SideBar />
       
