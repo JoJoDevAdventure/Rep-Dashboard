@@ -119,7 +119,7 @@ const Humphry = () => {
         className={`fixed rounded-full transition-all duration-300 cursor-pointer z-20 ${
           isActive
             ? "top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-512 h-512"
-            : "bottom-4 right-4 w-16 h-16 max-md:bottom-4 max-md:right-[calc(50%-2rem)] z-20"
+            : "bottom-4 right-4 w-16 h-16 md:w-36 md:h-36 max-md:bottom-4 max-md:right-[calc(50%-2rem)] z-20"
         }`}
       >
         {/* Lottie Background */}

@@ -30,7 +30,7 @@ const CallsList = ({ calls, onCall, OnView, isDarkMode }) => {
             onClick={() => onCall(call)}
           >
             {/* Address with Image */}
-            <div className="md:col-span-4 flex gap-4">
+            <div className="md:col-span-4 flex gap-4 items-center">
               <img
                 src={call.image} // Property image
                 alt={`${call.propertyInfo.address}`} // Alt text for accessibility
