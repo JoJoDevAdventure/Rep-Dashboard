@@ -17,6 +17,8 @@ const SideBar = () => {
       name: "Listings",
       path: "/dashboard/listings",
       icon: "listings-icon.svg",
+      isDisabled: true, // Example of a disabled menu item
+
     },
     {
       name: "CRM",
