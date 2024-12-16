@@ -2,6 +2,7 @@ import Lottie from "lottie-react";
 import { useEffect, useRef, useState } from "react";
 import WaveSurfer from "wavesurfer.js";
 import loadingAnimation from "../animations/loading.json"; // Path to your Lottie JSON file
+import ImagePicker from "../ImagePicker";
 
 const ListingPopForm = ({ isOpen, onClose, onSave }) => {
   const [notes, setNotes] = useState(""); // State to handle notes input
@@ -11,8 +12,12 @@ const ListingPopForm = ({ isOpen, onClose, onSave }) => {
   const [isRecording, setIsRecording] = useState(false); // State to toggle recording icon
   const [isPlaying, setIsPlaying] = useState(false); // State to track play/pause
   const [isLoading, setIsLoading] = useState(false); // State to show/hide loading animation
+  const [isImagePickerOpen, setIsImagePickerOpen] = useState(false); // Track if image picker is open
+  const [hasApplied, setHasApplied] = useState(false); // State to track if user has applied
+
   const mediaRecorderRef = useRef(null); // Ref for media recorder
   const waveformRef = useRef(null); // Ref for WaveSurfer container
+  const demoWaveRef = useRef(null);
   const waveSurferRef = useRef(null); // Ref for WaveSurfer instance
 
   // Handle file upload (image)
@@ -73,6 +78,7 @@ const ListingPopForm = ({ isOpen, onClose, onSave }) => {
     }
   };
 
+
   // Start audio recording
   const startRecording = async () => {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -118,6 +124,17 @@ const ListingPopForm = ({ isOpen, onClose, onSave }) => {
     }
   };
 
+  // Handle capturing the photo
+  const handleCapture = (image) => {
+    setImagePreview(image); // Save the captured image
+    setIsImagePickerOpen(false); // Close the picker
+  };
+
+  const onApply = () => {
+    setHasApplied(true);
+    loadWaveform(audioBlob)
+  };
+
   useEffect(() => {
     if (audioBlob && waveformRef.current) {
       loadWaveform(audioBlob);
@@ -128,162 +145,244 @@ const ListingPopForm = ({ isOpen, onClose, onSave }) => {
 
   return (
     <div className="fixed top-0 left-0 w-full md:w-full h-full bg-black bg-opacity-50 z-50 flex items-center justify-center">
-      {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+      {isImagePickerOpen && (
+        <ImagePicker
+          onClose={() => setIsImagePickerOpen(false)}
+          onCapture={handleCapture}
+        />
+      )}
+      <div className="bg-white rounded-lg p-6 w-80 md:w-96 shadow-lg text-gray-500 relative">
+        {isLoading && (
           <Lottie
             animationData={loadingAnimation}
             loop={true}
-            className="w-40 h-40"
+            className="absolute inset-0 w-full h-full"
           />
-        </div>
-      )}
-      <div className="bg-white rounded-lg p-6 w-80 md:w-96 shadow-lg text-gray-500">
-        <h2 className="text-lg font-bold mb-4 text-black-100">
-          Add Product Listing
-        </h2>
+        )}
+        {!hasApplied ? (
+          <>
+            <h2 className="text-lg font-bold mb-4 text-black-100">
+              Add Product Listing
+            </h2>
 
-        {/* Image Upload */}
-        <div className="mb-4">
-          <label htmlFor="image" className="block text-sm font-medium mb-2">
-            Product Image
-          </label>
-          <div className="w-full h-32 border-2 border-dashed border-p1 rounded-lg flex flex-col items-center justify-center text-center p-4 relative">
-            {imagePreview ? (
-              <div className="relative flex justify-center w-full h-full">
-                <img
-                  src={imagePreview}
-                  alt="Preview"
-                  className="h-full max-h-24 object-cover rounded-lg mb-2"
-                />
-                {/* Trash Icon to Remove Image */}
+            {/* Image Upload */}
+            <div className="mb-4">
+              <label htmlFor="image" className="block text-sm font-medium mb-2">
+                Product Image
+              </label>
+
+              {imagePreview ? (
+                <div className="relative flex justify-center w-full h-full">
+                  <img
+                    src={imagePreview}
+                    alt="Preview"
+                    className="h-full max-h-24 object-cover rounded-lg mb-2"
+                  />
+                  {/* Trash Icon to Remove Image */}
+                  <button
+                    onClick={removeImage}
+                    className="absolute -bottom-3 right-[calc(50%-1rem)] bg-red-500 p-2 rounded-full text-white hover:bg-red-600 focus:outline-none"
+                  >
+                    <img
+                      src="https://img.icons8.com/ios-filled/24/ffffff/trash.png"
+                      alt="Remove"
+                      className="w-4 h-4"
+                    />
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <label className="flex flex-row justify-center items-center gap-2 text-p1 px-4 rounded-lg cursor-pointer hover:bg-p2/10 text-xl w-full mb-4">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFileUpload}
+                      className="hidden"
+                    />
+                    <svg
+                      className="w-6 h-6"
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="24px"
+                      viewBox="0 -960 960 960"
+                      width="24px"
+                      fill="#ff5f1f"
+                    >
+                      <path d="M480-260q75 0 127.5-52.5T660-440q0-75-52.5-127.5T480-620q-75 0-127.5 52.5T300-440q0 75 52.5 127.5T480-260Zm0-80q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29ZM160-120q-33 0-56.5-23.5T80-200v-480q0-33 23.5-56.5T160-760h126l74-80h240l74 80h126q33 0 56.5 23.5T880-680v480q0 33-23.5 56.5T800-120H160Zm0-80h640v-480H638l-73-80H395l-73 80H160v480Zm320-240Z" />
+                    </svg>
+                    Take Picture
+                  </label>
+                  <div className="w-full h-20 border-2 border-dashed border-p1 rounded-lg flex flex-col items-center justify-center text-center p-4 relative">
+                    <div className="flex flex-col justify-center items-center">
+                      <p>Or</p>
+                      <label className="flex flex-row justify-center items-center gap-2 text-p1 px-4 rounded-lg cursor-pointer hover:bg-p2/10 w-full text-m">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleFileUpload}
+                          className="hidden"
+                        />
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          height="24px"
+                          viewBox="0 -960 960 960"
+                          width="24px"
+                          fill="#ff5f1f"
+                          className="w-4 h-4"
+                        >
+                          <path d="M440-200h80v-167l64 64 56-57-160-160-160 160 57 56 63-63v167ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z" />
+                        </svg>
+                        Browse Images
+                      </label>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* Audio Upload/Record */}
+            <div className="mb-4 mt-8">
+              <label htmlFor="audio" className="block text-sm font-medium mb-2">
+                Product Description Audio
+              </label>
+              {audioBlob ? (
+                <div className="relative">
+                  <div ref={waveformRef} className="mb-4 h-22"></div>
+                  <button
+                    onClick={removeAudio}
+                    className="absolute -bottom-3 right-0 bg-red-500 p-2 rounded-full text-white hover:bg-red-600 focus:outline-none z-50"
+                  >
+                    <img
+                      src="https://img.icons8.com/ios-filled/24/ffffff/trash.png"
+                      alt="Remove"
+                      className="w-4 h-4"
+                    />
+                  </button>
+
+                  <button
+                    onClick={togglePlayPause}
+                    className="absolute -bottom-3 right-12 bg-p1 p-2 rounded-full text-white hover:bg-red-600 focus:outline-none z-50"
+                  >
+                    <img
+                      src={
+                        !isPlaying
+                          ? `https://img.icons8.com/ios-filled/50/ffffff/play.png`
+                          : `https://img.icons8.com/ios-filled/50/ffffff/pause.png`
+                      }
+                      alt="Remove"
+                      className="w-4 h-4"
+                    />
+                  </button>
+                </div>
+              ) : (
+                <div className="flex gap-2">
+                  <label className="flex items-center gap-2 bg-p1 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-p2">
+                    <input
+                      type="file"
+                      accept="audio/*"
+                      onChange={handleAudioUpload}
+                      className="hidden"
+                    />
+                    <img
+                      src="https://img.icons8.com/ios-filled/50/ffffff/upload.png"
+                      alt="Upload"
+                      className="w-5 h-5"
+                    />
+                    Upload Audio
+                  </label>
+                  {isRecording ? (
+                    <button
+                      onClick={stopRecording}
+                      className="flex items-center gap-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+                    >
+                      <img
+                        src="https://img.icons8.com/ios-filled/50/ffffff/stop.png"
+                        alt="Stop Recording"
+                        className="w-5 h-5"
+                      />
+                      Stop Recording
+                    </button>
+                  ) : (
+                    <button
+                      onClick={startRecording}
+                      className="flex items-center gap-2 bg-p1 text-white px-4 py-2 rounded-lg hover:bg-p2"
+                    >
+                      <img
+                        src="https://img.icons8.com/ios-filled/50/ffffff/microphone.png"
+                        alt="Record Audio"
+                        className="w-5 h-5"
+                      />
+                      Record Audio
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+          </>
+        ) : (
+          <div className="">
+            <h2 className="text-lg font-bold mb-4 text-black-100">
+            Product Listing Info</h2>
+            <div className="flex flex-col w-full justify-center items-center">
+            <img
+              src={imagePreview}
+              alt="Preview"
+              className="h-full max-h-24 max-w-[50%] object-cover rounded-lg mb-2 items-center"
+            />
+            </div>
+
+            {audioBlob && (
+              <div className="relative">
+                <div ref={waveformRef} className="mb-4 h-22"></div>
+
                 <button
-                  onClick={removeImage}
-                  className="absolute -bottom-3 right-[calc(50%-1rem)] bg-red-500 p-2 rounded-full text-white hover:bg-red-600 focus:outline-none"
+                  onClick={togglePlayPause}
+                  className="absolute -bottom-3 right-0 bg-p1 p-2 rounded-full text-white hover:bg-red-600 focus:outline-none z-50"
                 >
                   <img
-                    src="https://img.icons8.com/ios-filled/24/ffffff/trash.png"
+                    src={
+                      !isPlaying
+                        ? `https://img.icons8.com/ios-filled/50/ffffff/play.png`
+                        : `https://img.icons8.com/ios-filled/50/ffffff/pause.png`
+                    }
                     alt="Remove"
                     className="w-4 h-4"
                   />
                 </button>
               </div>
-            ) : (
-              <div className="flex gap-2">
-                <label className="flex items-center gap-2 bg-p1 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-p2">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileUpload}
-                    className="hidden"
-                  />
-                  <img
-                    src="https://img.icons8.com/ios-filled/50/ffffff/upload.png"
-                    alt="Upload"
-                    className="w-5 h-5"
-                  />
-                  Browse Images
-                </label>
-              </div>
             )}
+            {/* Output */}
+            <div ref={demoWaveRef} className="flex flex-col gap-2 mt-4">
+              {" "}
+            </div>
+            <div className="grid grid-cols-1 gap-4 mb-6">
+              {[
+                {
+                  label: "Title",
+                  key: "clientInfo.firstName",
+                  value: "Title generated by AI",
+                },
+                {
+                  label: "Product Description",
+                  key: "clientInfo.lastName",
+                  value: "Description generated by AI",
+                },
+                { label: "Price", key: "clientInfo.email", value: "" },
+              ].map((field) => {
+                return (
+                  <div key={field.key}>
+                    <p className={`text-xs}`}>{field.label}</p>
+                    <input
+                      type="text"
+                      value={field.value}
+                      className={`w-full text-sm rounded px-3 py-2 border`}
+                      onChange={() => ({})}
+                    />
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div>
-
-        {/* Audio Upload/Record */}
-        <div className="mb-4">
-          <label htmlFor="audio" className="block text-sm font-medium mb-2">
-            Product Description Audio
-          </label>
-          {audioBlob ? (
-            <div className="relative">
-              <div ref={waveformRef} className="mb-4 h-22"></div>
-              <button
-                onClick={removeAudio}
-                className="absolute -bottom-3 right-0 bg-red-500 p-2 rounded-full text-white hover:bg-red-600 focus:outline-none z-50"
-              >
-                <img
-                  src="https://img.icons8.com/ios-filled/24/ffffff/trash.png"
-                  alt="Remove"
-                  className="w-4 h-4"
-                />
-              </button>
-
-              <button
-                onClick={togglePlayPause}
-                className="absolute -bottom-3 right-12 bg-p1 p-2 rounded-full text-white hover:bg-red-600 focus:outline-none z-50"
-              >
-                <img
-                  src={
-                    !isPlaying
-                      ? `https://img.icons8.com/ios-filled/50/ffffff/play.png`
-                      : `https://img.icons8.com/ios-filled/50/ffffff/pause.png`
-                  }
-                  alt="Remove"
-                  className="w-4 h-4"
-                />
-              </button>
-            </div>
-          ) : (
-            <div className="flex gap-2">
-              <label className="flex items-center gap-2 bg-p1 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-p2">
-                <input
-                  type="file"
-                  accept="audio/*"
-                  onChange={handleAudioUpload}
-                  className="hidden"
-                />
-                <img
-                  src="https://img.icons8.com/ios-filled/50/ffffff/upload.png"
-                  alt="Upload"
-                  className="w-5 h-5"
-                />
-                Upload Audio
-              </label>
-              {isRecording ? (
-                <button
-                  onClick={stopRecording}
-                  className="flex items-center gap-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
-                >
-                  <img
-                    src="https://img.icons8.com/ios-filled/50/ffffff/stop.png"
-                    alt="Stop Recording"
-                    className="w-5 h-5"
-                  />
-                  Stop Recording
-                </button>
-              ) : (
-                <button
-                  onClick={startRecording}
-                  className="flex items-center gap-2 bg-p1 text-white px-4 py-2 rounded-lg hover:bg-p2"
-                >
-                  <img
-                    src="https://img.icons8.com/ios-filled/50/ffffff/microphone.png"
-                    alt="Record Audio"
-                    className="w-5 h-5"
-                  />
-                  Record Audio
-                </button>
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* Notes Section */}
-        <div className="mt-6">
-          <label
-            htmlFor="description"
-            className="block text-sm font-medium mb-2"
-          >
-            Product Description
-          </label>
-          <textarea
-            id="description"
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-            rows={4}
-            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-p1"
-            placeholder="Add your description here..."
-          ></textarea>
-        </div>
+        )}
 
         {/* Action Buttons */}
         <div className="flex justify-between mt-6">
@@ -296,7 +395,11 @@ const ListingPopForm = ({ isOpen, onClose, onSave }) => {
           <button
             onClick={() => {
               if (audioBlob && uploadedFile) {
-                onSave({ notes, uploadedFile, audioBlob });
+                if (hasApplied) {
+                  onSave({ notes, uploadedFile, audioBlob });
+                } else {
+                  onApply();
+                }
               } else {
                 console.error(
                   "Both audio and image files are required to save."
@@ -311,7 +414,7 @@ const ListingPopForm = ({ isOpen, onClose, onSave }) => {
             }`}
             disabled={!audioBlob && !uploadedFile}
           >
-            Save
+            {hasApplied ? "Save" : "Apply"}
           </button>
         </div>
       </div>
