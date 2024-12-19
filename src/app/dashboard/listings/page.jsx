@@ -13,7 +13,7 @@ const page = () => {
   const { isDarkMode } = useTheme(); // Get the current theme (dark or light mode)
 
   return (
-    <div className="flex md:max-h-[100vh] pb-12 md:pb-0 md:overflow-hidden">
+    <div className="flex md:max-h-[100vh] pb-12 md:pb-0 md:overflow-y-scroll">
       <Head>
         <title>ReplicAIDE Demo</title>
         <meta name="description" content="A brief description of the page" />

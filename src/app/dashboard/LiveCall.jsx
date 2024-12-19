@@ -3,6 +3,7 @@ import CallInfo from "@/Components/dashboard/CallInfo"; // Displays call-specifi
 import ListingInfo from "@/Components/dashboard/ListingInfo"; // Displays property and client information
 import LiveListingInfo from "@/Components/dashboard/LiveListingInfo"; // Displays real-time property info for live calls
 import LiveTranscript from "@/Components/dashboard/LiveTranscript"; // Displays the real-time transcript of the call
+import { liveCall } from "@/data";
 import { useEffect, useState } from "react"; // React hooks for managing state and effects
 
 const LiveCall = ({ call, isActive, isDarkMode }) => {
@@ -15,14 +16,15 @@ const LiveCall = ({ call, isActive, isDarkMode }) => {
   // Effect to load or clear the audio URL based on the active tab
   useEffect(() => {
     if (isActive) {
-      setAudioUrl(call.audio); // Load audio from the call object when active
+      console.log(liveCall.audio)
+      setAudioUrl(liveCall.audio); // Load audio from the call object when active
     } else {
       setAudioUrl(null); // Clear the audio URL when inactive
     }
   }, [isActive, call.audio]);
 
   return (
-    <div className="flex flex-col  md:flex-row gap-4 h-full">
+    <div className="flex flex-col md:flex-row gap-4 h-full overflow-y-scroll">
       {/* Left Column: Agent Info, Call Info, and Live Transcript */}
       <div className="md:w-1/2 flex flex-col gap-4 md:h-full h-auto">
         {/* Agent Info and Call Info */}

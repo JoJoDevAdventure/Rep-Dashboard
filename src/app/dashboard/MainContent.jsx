@@ -41,7 +41,7 @@ const MainContent = ({ calls }) => {
       {activeTab === 1 && (
         <LiveCall
           call={liveCall} // Pass the currently active call
-          isActive={activeTab === 2} // Indicates if the tab is active
+          isActive={activeTab === 1} // Indicates if the tab is active
           isDarkMode={isDarkMode} // Pass theme information
         />
       )}

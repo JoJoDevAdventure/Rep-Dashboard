@@ -210,7 +210,7 @@ const SideBar = () => {
         }`}
       >
         {/* Left Section */}
-        <div className="relative flex justify-start gap-4 min-w-2/5 pl-3 z-50">
+        <div className="relative flex justify-between gap-4 min-w-2/5 pl-4 z-50">
           {leftMobileMenuItems.map((item) => (
             <Link
               key={item.name}
@@ -226,7 +226,7 @@ const SideBar = () => {
         </div>
 
         {/* Right Section */}
-        <div className="relative flex justify-end gap-4 min-w-2/5 pr-3 z-50">
+        <div className="relative flex justify-between gap-4 min-w-2/5 pr-3 z-50">
           {rightMobileMenuItems.map((item) => (
             <Link
               key={item.name}
